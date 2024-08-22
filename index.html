@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .calculator {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="number"] {
+            width: 100px;
+            padding: 8px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>Calculadora</h2>
+        <input type="number" id="number1" placeholder="Número 1">
+        <input type="number" id="number2" placeholder="Número 2">
+        <div>
+            <button onclick="calculate('sumar')">Sumar</button>
+            <button onclick="calculate('restar')">Restar</button>
+            <button onclick="calculate('multiplicar')">Multiplicar</button>
+            <button onclick="calculate('raizCuadrada')">Raíz Cuadrada</button>
+            <button onclick="calculate('elevarCuadrado')">Cuadrado</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculate(operation) {
+            const number1 = parseFloat(document.getElementById('number1').value);
+            const number2 = parseFloat(document.getElementById('number2').value);
+            let result;
+
+            switch(operation) {
+                case 'sumar':
+                    result = number1 + number2;
+                    break;
+                case 'restar':
+                    result = number1 - number2;
+                    break;
+                case 'multiplicar':
+                    result = number1 * number2;
+                    break;
+                case 'raizCuadrada':
+                    result = Math.sqrt(number1);
+                    break;
+                case 'elevarCuadrado':
+                    result = Math.pow(number1, 2);
+                    break;
+                default:
+                    result = 'Operación no válida';
+            }
+
+            document.getElementById('result').innerText = Resultado: ${result};
+        }
+    </script>
+</body>
+</html>
