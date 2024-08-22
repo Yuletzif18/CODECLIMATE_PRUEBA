@@ -3,73 +3,87 @@ import java.io.*;
 import java.util.Scanner;
 
 public class PruebasCodigo {
-    
+
     public static void main(String[] args) {
         while (true) {
-            String[] options = {"Sumar", "Restar", "Multiplicar", "Raíz Cuadrada", "Cuadrado", "Consultar Historial", "Salir"};
-            int choice = JOptionPane.showOptionDialog(null, "Seleccione una operación", "Calculadora",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-
+            int choice = mostrarMenu();
             if (choice == 6) {
                 break; // Salir del bucle y terminar el programa
             }
+            manejarEleccion(choice);
+        }
+    }
 
-            switch (choice) {
-                case 0: // Sumar
-                    realizarOperacion("sumar");
-                    break;
-                case 1: // Restar
-                    realizarOperacion("restar");
-                    break;
-                case 2: // Multiplicar
-                    realizarOperacion("multiplicar");
-                    break;
-                case 3: // Raíz Cuadrada
-                    realizarOperacion("raizCuadrada");
-                    break;
-                case 4: // Cuadrado
-                    realizarOperacion("cuadrado");
-                    break;
-                case 5: // Consultar Historial
-                    consultarHistorial();
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Opción no válida");
-                    break;
-            }
+    private static int mostrarMenu() {
+        String[] options = {"Sumar", "Restar", "Multiplicar", "Raíz Cuadrada", "Cuadrado", "Consultar Historial", "Salir"};
+        return JOptionPane.showOptionDialog(null, "Seleccione una operación", "Calculadora",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+    }
+
+    private static void manejarEleccion(int choice) {
+        switch (choice) {
+            case 0: // Sumar
+                realizarOperacion("sumar");
+                break;
+            case 1: // Restar
+                realizarOperacion("restar");
+                break;
+            case 2: // Multiplicar
+                realizarOperacion("multiplicar");
+                break;
+            case 3: // Raíz Cuadrada
+                realizarOperacion("raizCuadrada");
+                break;
+            case 4: // Cuadrado
+                realizarOperacion("cuadrado");
+                break;
+            case 5: // Consultar Historial
+                consultarHistorial();
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Opción no válida");
+                break;
         }
     }
 
     private static void realizarOperacion(String operacion) {
-        double resultado = 0;
         double numero1 = obtenerNumero("Ingrese el primer número");
         double numero2 = 0;
-
-        if (!operacion.equals("raizCuadrada") && !operacion.equals("cuadrado")) {
+        
+        if (requiereSegundoNumero(operacion)) {
             numero2 = obtenerNumero("Ingrese el segundo número");
         }
 
+        double resultado = calcularResultado(operacion, numero1, numero2);
+
+        mostrarResultado(resultado);
+        guardarEnHistorial(operacion, numero1, numero2, resultado);
+    }
+
+    private static boolean requiereSegundoNumero(String operacion) {
+        return !operacion.equals("raizCuadrada") && !operacion.equals("cuadrado");
+    }
+
+    private static double calcularResultado(String operacion, double numero1, double numero2) {
         switch (operacion) {
             case "sumar":
-                resultado = numero1 + numero2;
-                break;
+                return numero1 + numero2;
             case "restar":
-                resultado = numero1 - numero2;
-                break;
+                return numero1 - numero2;
             case "multiplicar":
-                resultado = numero1 * numero2;
-                break;
+                return numero1 * numero2;
             case "raizCuadrada":
-                resultado = Math.sqrt(numero1);
-                break;
+                return Math.sqrt(numero1);
             case "cuadrado":
-                resultado = Math.pow(numero1, 2);
-                break;
+                return Math.pow(numero1, 2);
+            default:
+                throw new IllegalArgumentException("Operación desconocida: " + operacion);
         }
+    }
 
+    private static void mostrarResultado(double resultado) {
         String mensajeResultado = "Resultado: " + resultado;
         JOptionPane.showMessageDialog(null, mensajeResultado);
-        guardarEnHistorial(operacion, numero1, numero2, resultado);
     }
 
     private static double obtenerNumero(String mensaje) {
@@ -105,5 +119,5 @@ public class PruebasCodigo {
         }
 
         JOptionPane.showMessageDialog(null, historial.toString(), "Historial", JOptionPane.INFORMATION_MESSAGE);
-    }
+    }
 }
